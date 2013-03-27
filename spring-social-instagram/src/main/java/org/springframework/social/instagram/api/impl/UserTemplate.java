@@ -31,14 +31,14 @@ public class UserTemplate extends AbstractInstagramOperations implements UserOpe
 	}
 
 	public PagedMediaList getFeed() {
-		return getFeed(0, 0);
+		return getFeed(null, null);
 	}
 	
-	public PagedMediaList getFeed(long maxId, long minId) {
+	public PagedMediaList getFeed(String maxId, String minId) {
 		requireUserAuthorization();
 		Map<String,String> params = new HashMap<String, String>();
-		if(maxId > 0) params.put("max_id", Long.toString(maxId));
-		if(minId > 0) params.put("min_id", Long.toString(minId));
+		if(maxId != null) params.put("max_id", maxId);
+		if(minId != null) params.put("min_id", minId);
 		return get(buildUri(USERS_ENDPOINT + "self/feed/", params), PagedMediaList.class);
 	}
 

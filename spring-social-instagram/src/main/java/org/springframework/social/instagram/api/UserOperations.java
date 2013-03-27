@@ -34,7 +34,7 @@ public interface UserOperations {
      * @param minId Get media after this ID
      * @return List of media
      */
-	PagedMediaList getFeed(long maxId, long minId);
+	PagedMediaList getFeed(String maxId, String minId);
 	
 	/**
 	 * Get recent media of a specific user
