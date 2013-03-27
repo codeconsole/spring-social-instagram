@@ -27,8 +27,8 @@ public abstract class AbstractInstagramApiTest {
 	}
 	
 	protected void assertPagedResults(PagedMediaList media) {
-		assertEquals(media.getPagination().getNextMaxId(), 5675287);
-		assertEquals(media.getPagination().getNextMinId(), 5689748);
+		assertEquals(media.getPagination().getNextMaxId(), "5675287");
+		assertEquals(media.getPagination().getNextMinId(), "5689748");
 		assertEquals(media.getPagination().getNextUrl(), "https://api.instagram.com/v1/tags/cats/media/recent/?access_token=ACCESS_TOKEN&max_id=5675287");
 		assertTrue(media.getList().size() > 0);
 	}

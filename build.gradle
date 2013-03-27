@@ -148,7 +148,7 @@ project('spring-social-instagram') {
         compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
         compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
         compile ("javax.servlet.jsp:jsp-api:$jspApiVersion") { provided = true }
-        testCompile "org.springframework.social:spring-social-test:$springSocialVersion"
+        testCompile "org.springframework.social:spring-social-test:1.0.0.RELEASE"
     }
 }
 

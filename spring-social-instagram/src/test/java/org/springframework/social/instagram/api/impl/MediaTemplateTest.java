@@ -27,7 +27,7 @@ public class MediaTemplateTest extends AbstractInstagramApiTest {
 			.andRespond(withResponse(new ClassPathResource("testdata/media.json", getClass()), responseHeaders));
 		
 		Media media = instagram.mediaOperations().getMedia(48904105);
-		assertEquals(48904105, media.getId());
+		assertEquals("48904105", media.getId());
 		assertTrue(media.getTags().contains("cat") && media.getTags().contains("food"));
 		mockServer.verify();
 	}
