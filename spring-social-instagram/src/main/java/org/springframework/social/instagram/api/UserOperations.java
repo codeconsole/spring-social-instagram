@@ -52,7 +52,7 @@ public interface UserOperations {
      * @param manTimestamp Get media before this Unix timestamp
      * @return  List of media
      */
-	 PagedMediaList getRecentMedia(long userId, long maxId, long minId, long minTimestamp, long maxTimestamp);
+	 PagedMediaList getRecentMedia(long userId, String maxId, String minId, long minTimestamp, long maxTimestamp);
 	
 	/**
 	 * Search for users
