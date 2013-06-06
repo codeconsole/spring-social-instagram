@@ -96,13 +96,13 @@ configure(javaprojects) {
     // add tasks for finding and publishing .xsd files
     apply from: "$buildSrcDir/schema-publication.gradle"
 
-    springSocialVersion = '1.1.0.M1'
-    jacksonVersion = '1.8.5'
-    jspApiVersion = '2.1'
-    junitVersion = '4.9'
-    mockitoVersion = '1.8.5'
+    springSocialVersion = '1.1.0.BUILD-SNAPSHOT'
+    jacksonVersion = '2.2.1'
+    jspApiVersion = '2.2.1'
+    junitVersion = '4.11'
+    mockitoVersion = '1.9.5'
     servletApiVersion = '2.5'
-    springVersion = '3.1.1.RELEASE'
+    springVersion = '3.2.1.RELEASE'
 
     sourceCompatibility = compatibilityVersion
     targetCompatibility = compatibilityVersion
@@ -145,9 +145,11 @@ project('spring-social-instagram') {
     description = 'Instagram API'
     dependencies {
         compile "org.springframework.social:spring-social-core:$springSocialVersion"
-        compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+        compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+        compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+        compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
         compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
-        compile ("javax.servlet.jsp:jsp-api:$jspApiVersion") { provided = true }
+        compile ("javax.servlet.jsp:javax.servlet.jsp-api:$jspApiVersion") { provided = true }
         testCompile "org.springframework.social:spring-social-test:1.0.0.RELEASE"
     }
 }
