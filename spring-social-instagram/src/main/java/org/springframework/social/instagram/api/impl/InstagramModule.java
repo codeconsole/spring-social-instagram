@@ -1,7 +1,7 @@
 package org.springframework.social.instagram.api.impl;
 
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.module.SimpleModule;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.social.instagram.api.Caption;
 import org.springframework.social.instagram.api.Comment;
 import org.springframework.social.instagram.api.CommentsInfo;

@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.social.instagram.api.Caption;
 import org.springframework.social.instagram.api.CommentsInfo;
 import org.springframework.social.instagram.api.Image;

@@ -3,7 +3,7 @@ package org.springframework.social.instagram.api.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
@@ -80,7 +80,7 @@ public class InstagramTemplate extends AbstractOAuth2ApiBinding implements Insta
         for (HttpMessageConverter<?> converter : converters) {
             if(converter instanceof MappingJacksonHttpMessageConverter) {
                 MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
-                ObjectMapper objectMapper = new ObjectMapper();             
+                ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.registerModule(new InstagramModule());
                 jsonConverter.setObjectMapper(objectMapper);
             }
