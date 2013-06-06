@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.instagram.api.Instagram;
 import org.springframework.social.instagram.api.LocationOperations;
 import org.springframework.social.instagram.api.MediaOperations;
@@ -63,7 +63,7 @@ public class InstagramTemplate extends AbstractOAuth2ApiBinding implements Insta
 	    super(accessToken);
 		this.clientId = clientId;
 		this.accessToken = accessToken;	
-		MappingJacksonHttpMessageConverter json = new MappingJacksonHttpMessageConverter();
+		MappingJackson2HttpMessageConverter json = new MappingJackson2HttpMessageConverter();
         json.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "javascript")));
 		getRestTemplate().getMessageConverters().add(json);
 		registerInstagramJsonModule(getRestTemplate());
@@ -78,8 +78,8 @@ public class InstagramTemplate extends AbstractOAuth2ApiBinding implements Insta
 	private void registerInstagramJsonModule(RestTemplate restTemplate) {
 	    List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
         for (HttpMessageConverter<?> converter : converters) {
-            if(converter instanceof MappingJacksonHttpMessageConverter) {
-                MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
+            if(converter instanceof MappingJackson2HttpMessageConverter) {
+                MappingJackson2HttpMessageConverter jsonConverter = (MappingJackson2HttpMessageConverter) converter;
                 ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.registerModule(new InstagramModule());
                 jsonConverter.setObjectMapper(objectMapper);
