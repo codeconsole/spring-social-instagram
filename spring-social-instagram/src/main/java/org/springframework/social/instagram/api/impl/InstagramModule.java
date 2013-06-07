@@ -1,6 +1,5 @@
 package org.springframework.social.instagram.api.impl;
 
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.social.instagram.api.Caption;
 import org.springframework.social.instagram.api.Comment;
@@ -17,8 +16,10 @@ import org.springframework.social.instagram.api.Tag;
 
 public class InstagramModule extends SimpleModule {
 
+    private static final long serialVersionUID = 1L;
+
     public InstagramModule() {
-        super(InstagramModule.class.getName(), new Version(1, 0, 0, null));
+        super(InstagramModule.class.getName());
     }
 
     @Override public void setupModule(SetupContext context) {
