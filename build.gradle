@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import org.springframework.build.Version
 
 // -----------------------------------------------------------------------------
 // Main gradle build file for Spring Social Instagram
@@ -24,18 +23,18 @@
 // Configuration for the root project
 // -----------------------------------------------------------------------------
 description = 'Spring Social Instagram'
-abbreviation = 'SOCIAL-INSTAGRAM'
 
 apply plugin: 'base'
 apply plugin: 'idea'
 
-def buildSrcDir = "$rootDir/buildSrc"
-apply from: "$buildSrcDir/wrapper.gradle"
-apply from: "$buildSrcDir/maven-root-pom.gradle"
 
 def compatibilityVersion = 1.6
-sourceCompatibility = compatibilityVersion
-targetCompatibility = compatibilityVersion
+
+task wrapper(type: Wrapper) {
+    group = 'Buildmaster'
+    description = "Generates gradlew and gradlew.bat bootstrap scripts"
+    gradleVersion = '1.6'
+}
 
 // -----------------------------------------------------------------------------
 // Configuration for all projects including this one (the root project)
@@ -49,15 +48,14 @@ allprojects {
     // version will be used in maven pom generation as well as determining
     // where artifacts should be deployed, based on release type of snapshot,
     // milestone or release.
-    // @see org.springframework.build.Version under buildSrc/ for more info
     // @see gradle.properties for the declaration of this property.
-    version = new Version(springSocialInstagramVersion)
+    version = springSocialInstagramVersion
 
     // default set of maven repositories to be used when resolving dependencies
     repositories {
-        mavenRepo urls: 'http://maven.springframework.org/release'
-        mavenRepo urls: 'http://maven.springframework.org/milestone'
-        mavenRepo urls: 'http://maven.springframework.org/snapshot'
+        mavenRepo url: 'http://maven.springframework.org/release'
+        mavenRepo url: 'http://maven.springframework.org/milestone'
+        mavenRepo url: 'http://maven.springframework.org/snapshot'
         mavenCentral()
     }
 }
@@ -71,7 +69,7 @@ allprojects {
 // @see configure(*) sections below
 // -----------------------------------------------------------------------------
 
-javaprojects = subprojects.findAll { project ->
+def javaprojects = subprojects.findAll { project ->
     project.path.startsWith(':spring-social-')
 }
 
@@ -85,24 +83,18 @@ configure(javaprojects) {
     apply plugin: 'eclipse' // `gradle eclipse` to generate .classpath/.project
     apply plugin: 'idea' // `gradle idea` to generate .ipr/.iml
 
-    // set up dedicated directories for jars and source jars.
-    // this makes it easier when putting together the distribution
-    libsBinDir = new File(libsDir, 'bin')
-    libsSrcDir = new File(libsDir, 'src')
-
     // add tasks for creating source jars and generating poms etc
-    apply from: "$buildSrcDir/maven-deployment.gradle"
-
-    // add tasks for finding and publishing .xsd files
-    apply from: "$buildSrcDir/schema-publication.gradle"
-
-    springSocialVersion = '1.1.0.M3'
-    jacksonVersion = '2.2.2'
-    jspApiVersion = '2.2.1'
-    junitVersion = '4.11'
-    mockitoVersion = '1.9.5'
-    servletApiVersion = '2.5'
-    springVersion = '3.2.3.RELEASE'
+    apply from: "${rootProject.projectDir}/publish-maven.gradle"
+    
+    ext {
+        springSocialVersion = '1.1.0.M3'
+        jacksonVersion = '2.2.2'
+        jspApiVersion = '2.2.1'
+        junitVersion = '4.11'
+        mockitoVersion = '1.9.5'
+        servletApiVersion = '2.5'
+        springVersion = '3.2.3.RELEASE'
+    }
 
     sourceCompatibility = compatibilityVersion
     targetCompatibility = compatibilityVersion
@@ -122,16 +114,13 @@ configure(javaprojects) {
 
     // dependencies that are common across all java projects
     dependencies {
-        testCompile "junit:junit:$junitVersion"
-        testCompile "org.mockito:mockito-all:$mockitoVersion"
-        testCompile "org.springframework:spring-test:$springVersion"
+        testCompile "junit:junit:$ext.junitVersion"
+        testCompile "org.mockito:mockito-all:$ext.mockitoVersion"
+        testCompile "org.springframework:spring-test:$ext.springVersion"
     }
 
     // enable all compiler warnings (GRADLE-1077)
     [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:all']
-
-    // generate .classpath files without GRADLE_CACHE variable (GRADLE-1079)
-    eclipseClasspath.variables = [:]
 }
 
 
@@ -144,22 +133,12 @@ configure(javaprojects) {
 project('spring-social-instagram') {
     description = 'Instagram API'
     dependencies {
-        compile "org.springframework.social:spring-social-core:$springSocialVersion"
-        compile ("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-        compile ("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-        compile ("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
-        compile ("javax.servlet:servlet-api:$servletApiVersion") { provided = true }
-        compile ("javax.servlet.jsp:javax.servlet.jsp-api:$jspApiVersion") { provided = true }
+        compile "org.springframework.social:spring-social-core:$ext.springSocialVersion"
+        compile ("com.fasterxml.jackson.core:jackson-core:$ext.jacksonVersion")
+        compile ("com.fasterxml.jackson.core:jackson-databind:$ext.jacksonVersion")
+        compile ("com.fasterxml.jackson.core:jackson-annotations:$ext.jacksonVersion")
+        compile ("javax.servlet:servlet-api:$ext.servletApiVersion", provided)
+        compile ("javax.servlet.jsp:javax.servlet.jsp-api:$ext.jspApiVersion", provided)
         testCompile "org.springframework.social:spring-social-test:1.0.0.RELEASE"
     }
 }
-
-// -----------------------------------------------------------------------------
-// Configuration for the docs subproject
-// -----------------------------------------------------------------------------
-project('docs') {
- //   apply from: "$buildSrcDir/docs.gradle"
-}
-
-apply from: "$buildSrcDir/dist.gradle"
-apply from: "$buildSrcDir/checks.gradle"
