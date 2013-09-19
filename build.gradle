@@ -100,11 +100,6 @@ configure(javaprojects) {
     targetCompatibility = compatibilityVersion
 
     sourceSets {
-        main {
-            resources {
-                srcDirs = ['src/main/java']
-            }
-        }
         test {
             resources {
                 srcDirs = ['src/test/java']
