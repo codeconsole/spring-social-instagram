@@ -1,0 +1,2 @@
+http\://www.springframework.org/schema/social/spring-social-instagram.xsd=org/springframework/social/instagram/config/xml/spring-social-instagram-1.1.xsd
+http\://www.springframework.org/schema/social/spring-social-instagram-1.1.xsd=org/springframework/social/instagram/config/xml/spring-social-instagram-1.1.xsd

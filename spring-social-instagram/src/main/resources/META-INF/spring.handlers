@@ -1,0 +1,1 @@
+http\://www.springframework.org/schema/social/instagram=org.springframework.social.instagram.config.xml.InstagramNamespaceHandler
