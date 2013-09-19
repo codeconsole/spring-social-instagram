@@ -87,7 +87,7 @@ configure(javaprojects) {
     apply from: "${rootProject.projectDir}/publish-maven.gradle"
     
     ext {
-        springSocialVersion = '1.1.0.M3'
+        springSocialVersion = '1.1.0.BUILD-SNAPSHOT'
         jacksonVersion = '2.2.2'
         jspApiVersion = '2.2.1'
         junitVersion = '4.11'
@@ -134,6 +134,8 @@ project('spring-social-instagram') {
     description = 'Instagram API'
     dependencies {
         compile "org.springframework.social:spring-social-core:$ext.springSocialVersion"
+        compile ("org.springframework.social:spring-social-config:$springSocialVersion") 
+        compile ("org.springframework.social:spring-social-security:$springSocialVersion", optional)               
         compile ("com.fasterxml.jackson.core:jackson-core:$ext.jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-databind:$ext.jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-annotations:$ext.jacksonVersion")
