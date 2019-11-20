@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.JsonbHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Template;
@@ -24,12 +24,6 @@ public class InstagramOAuth2Template extends OAuth2Template {
 	@Override
 	protected RestTemplate createRestTemplate() {
 		RestTemplate restTemplate = new RestTemplate(ClientHttpRequestFactorySelector.getRequestFactory());
-		FormHttpMessageConverter messageConverter = new FormHttpMessageConverter() {
-			public boolean canRead(Class<?> clazz, MediaType mediaType) {
-				return true;
-			}
-		};
-		restTemplate.setMessageConverters(Collections.<HttpMessageConverter<?>>singletonList(messageConverter));
 		return restTemplate;
 	}
 	
@@ -37,9 +31,7 @@ public class InstagramOAuth2Template extends OAuth2Template {
 	@SuppressWarnings("unchecked")	
 	protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
 		// TODO: Look into weird JSON response bug.
-		Map<String,Object> response = getRestTemplate().postForObject(accessTokenUrl, parameters, Map.class);
-		Entry<String,Object> entry = response.entrySet().iterator().next();
-		String jsonString = entry.getKey();
+		String jsonString = getRestTemplate().postForObject(accessTokenUrl, parameters, String.class);
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> response2 = null;
 		try {

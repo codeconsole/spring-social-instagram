@@ -28,12 +28,12 @@ apply plugin: 'base'
 apply plugin: 'idea'
 
 
-def compatibilityVersion = 1.6
+def compatibilityVersion = 1.8
 
 task wrapper(type: Wrapper) {
     group = 'Buildmaster'
     description = "Generates gradlew and gradlew.bat bootstrap scripts"
-    gradleVersion = '1.6'
+    gradleVersion = '1.9'
 }
 
 // -----------------------------------------------------------------------------
@@ -53,9 +53,8 @@ allprojects {
 
     // default set of maven repositories to be used when resolving dependencies
     repositories {
-        mavenRepo url: 'http://maven.springframework.org/release'
-        mavenRepo url: 'http://maven.springframework.org/milestone'
-        mavenRepo url: 'http://maven.springframework.org/snapshot'
+        maven { url "http://repo.spring.io/libs-milestone" } 
+        maven { url "http://repo.spring.io/libs-snapshot" } 
         mavenCentral()
     }
 }
@@ -87,13 +86,13 @@ configure(javaprojects) {
     apply from: "${rootProject.projectDir}/publish-maven.gradle"
     
     ext {
-        springSocialVersion = '1.1.0.BUILD-SNAPSHOT'
-        jacksonVersion = '2.2.2'
-        jspApiVersion = '2.2.1'
+        springSocialVersion = '2.0.0.BUILD-SNAPSHOT'
+        jacksonVersion = '2.9.10'
+        jspApiVersion = '2.3.1'
         junitVersion = '4.11'
         mockitoVersion = '1.9.5'
-        servletApiVersion = '2.5'
-        springVersion = '3.2.3.RELEASE'
+        servletApiVersion = '3.1.0'
+        springVersion = '5.1.8.RELEASE'
     }
 
     sourceCompatibility = compatibilityVersion
@@ -134,7 +133,7 @@ project('spring-social-instagram') {
         compile ("com.fasterxml.jackson.core:jackson-core:$ext.jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-databind:$ext.jacksonVersion")
         compile ("com.fasterxml.jackson.core:jackson-annotations:$ext.jacksonVersion")
-        compile ("javax.servlet:servlet-api:$ext.servletApiVersion", provided)
+        compile ("javax.servlet:javax.servlet-api:$ext.servletApiVersion", provided)
         compile ("javax.servlet.jsp:javax.servlet.jsp-api:$ext.jspApiVersion", provided)
         testCompile "org.springframework.social:spring-social-test:1.0.0.RELEASE"
     }
